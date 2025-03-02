@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsBagCheckFill } from "react-icons/bs";
 import { FaCartArrowDown } from "react-icons/fa6";
 
@@ -8,6 +8,12 @@ const Products = ({ products }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
+  }, []);
 
   const handlePurchesButton = (product) => {
     setLoading(true);
@@ -15,12 +21,31 @@ const Products = ({ products }) => {
       setSelectedProduct(product);
       setLoading(false);
       document.getElementById("modal_" + product.name).showModal();
-    }, 1000);
+    }, 500);
   };
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const handleAddToCart = () => {
+    if (!selectedProduct) return;
+
+    const newCart = [...cart];
+    const existingProductIndex = newCart.findIndex(
+      (item) => item.name === selectedProduct.name
+    );
+
+    if (existingProductIndex !== -1) {
+      newCart[existingProductIndex].quantity += quantity;
+    } else {
+      newCart.push({ ...selectedProduct, quantity });
+    }
+
+    setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    alert("Added to Cart Successfully! 🛒");
+  };
 
   return (
     <div>
@@ -71,29 +96,34 @@ const Products = ({ products }) => {
                           Quantity
                           <button
                             onClick={decreaseQuantity}
-                            className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-[#8CE723] text-white bg-[#8BC34A] transition duration-300 relative"
+                            className="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer hover:bg-[#8CE723] text-white bg-[#8BC34A] transition duration-300 relative"
                           >
                             -
                           </button>
-                          <span className="text-lg font-semibold">
+                          <span className="text-md font-semibold">
                             {quantity}
                           </span>
                           <button
                             onClick={increaseQuantity}
-                            className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-[#8CE723] text-[#8CE723] hover:text-white  border border-[#8CE723] transition duration-300 relative"
+                            className="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer hover:bg-[#8CE723] text-[#8CE723] hover:text-white  border border-[#8CE723] transition duration-300 relative"
                           >
                             +
                           </button>
                         </div>
-                        <p className="text-sm">
-                          Published: {selectedProduct?.published}
-                        </p>
-                        <p className="text-sm ">
-                          Category: {selectedProduct.category}
-                        </p>
+                        <div className="space-y-1">
+                          <p className="text-sm ">
+                            Category: {selectedProduct.category}
+                          </p>
+                          <p className="text-sm">
+                            Published: {selectedProduct?.published}
+                          </p>
+                        </div>
                       </div>
                       <div className="flex gap-2 justify-center pt-4">
-                        <button className="flex items-center text-sm cursor-pointer hover:bg-[#8CE723] text-white gap-2 bg-[#8BC34A] px-4 py-2 rounded-md transition duration-300 relative">
+                        <button
+                          onClick={() => handleAddToCart()}
+                          className="flex items-center text-sm cursor-pointer hover:bg-[#8CE723] text-white gap-2 bg-[#8BC34A] px-4 py-2 rounded-md transition duration-300 relative"
+                        >
                           <span className="text-base">
                             <FaCartArrowDown />
                           </span>
