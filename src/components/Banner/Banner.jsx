@@ -1,15 +1,13 @@
 import BannerBg from "../../assets/images/bannerbg.png";
 import { BsBagCheckFill } from "react-icons/bs";
-import "../../App.css";
 
 const Banner = () => {
   return (
-    <div classNameName="">
+    <div className="">
       <div className="w-full h-full bg-body bg-opacity-90">
-        <div className="lg:w-9/12 mx-auto py-16 flex sm:flex-row flex-col items-center gap-10">
+        <div className="w-9/12 mx-auto py-16 flex sm:flex-row flex-col items-center gap-10">
           <div className="flex-1">
             <img src={BannerBg} alt="" />
-            <span className="box-2"></span>
           </div>
 
           <div className="flex-1 sm:text-left text-center">

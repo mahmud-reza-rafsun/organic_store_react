@@ -12,15 +12,7 @@ body {
 }
 .box {
   position: absolute;
-  box-shadow: 0 0 800px 90px #a6ff01;
+  box-shadow: 0 0 1000px 80px #a6ff01;
   z-index: -100;
   right: 30%;
-}
-.box-2 {
-  position: absolute;
-  box-shadow: 0 0 100px 100px #a6ff01;
-  z-index: -100;
-  right: 100%;
-  left: 30%;
-  top: 80%;
 }

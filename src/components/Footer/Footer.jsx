@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="footer sm:footer-horizontal bg-[#111] text-base-content p-10">
         <aside className="z-10">
           <img className="w-44" src={FooterLogo} />
-          <p className="text-gray-100">Providing Organic Food since 1952</p>
+          <p className="text-gray-100">Providing Organic Food since 2025</p>
         </aside>
         <nav>
           <h6 className="footer-title text-gray-200 font-semibold">Services</h6>
